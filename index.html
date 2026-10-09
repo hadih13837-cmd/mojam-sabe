@@ -153,48 +153,95 @@ html,body{height:100%;width:100%;overflow:hidden;background-color:#e0e0e0}
 .info-synonym .info-icon{background:#e6f0ff;color:var(--blue)}
 .info-antonym .info-icon{background:#ffe6e6;color:var(--red)}
 .info-combo .info-icon{background:#fff3e0;color:var(--orange)}
-/* AI Chat Screen */
-#screen-ai{display:none;flex-direction:column;padding:0!important;height:100%;overflow:hidden}
+/* ============ AI CHAT SCREEN ============ */
+#screen-ai{display:none;flex-direction:column;padding:0!important;height:100%;overflow:hidden;position:relative}
 #screen-ai.active{display:flex}
-.ai-header{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#ff61c8,#7b61ff);color:#fff;padding:12px 15px;margin:10px 10px 0;border-radius:var(--radius);box-shadow:0 8px 20px rgba(123,97,255,0.3);animation:slideUp 0.4s ease;position:relative;flex-shrink:0}
-.ai-header .ai-avatar{width:40px;height:40px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;justify-content:center;align-items:center;font-size:20px;backdrop-filter:blur(10px);flex-shrink:0}
+.ai-header{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#ff61c8,#7b61ff);color:#fff;padding:10px 12px;margin:8px 8px 0;border-radius:var(--radius);box-shadow:0 6px 15px rgba(123,97,255,0.3);animation:slideUp 0.4s ease;position:relative;flex-shrink:0}
+.ai-header .ai-avatar{width:38px;height:38px;background:rgba(255,255,255,0.2);border-radius:50%;display:flex;justify-content:center;align-items:center;font-size:18px;backdrop-filter:blur(10px);flex-shrink:0}
 .ai-header .ai-title{flex:1;min-width:0}
-.ai-header h3{font-size:15px;font-weight:800;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px}
-.ai-header p{font-size:10px;opacity:0.9}
-.ai-header .hdr-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;justify-content:center;align-items:center;font-size:16px;cursor:pointer;transition:background 0.2s;flex-shrink:0}
+.ai-header h3{font-size:14px;font-weight:800;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px}
+.ai-header p{font-size:10px;opacity:0.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ai-header .hdr-btn{width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;justify-content:center;align-items:center;font-size:14px;cursor:pointer;transition:background 0.2s;flex-shrink:0}
 .ai-header .hdr-btn:active{background:rgba(255,255,255,0.4)}
-.ai-chat{flex:1;overflow-y:auto;padding:15px 15px 20px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth}
-.ai-message{display:flex;gap:8px;max-width:90%;animation:fadeIn 0.3s ease}
+.ai-chat{flex:1;overflow-y:auto;padding:15px;display:flex;flex-direction:column;gap:12px;scroll-behavior:smooth;min-height:0}
+.ai-message{display:flex;gap:8px;max-width:90%;animation:msgFadeIn 0.3s ease}
+@keyframes msgFadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .ai-message.user{align-self:flex-start;flex-direction:row}
 .ai-message.ai{align-self:flex-end;flex-direction:row-reverse}
-.ai-message .bubble{padding:12px 16px;border-radius:18px;font-size:14px;line-height:1.8;box-shadow:0 4px 10px rgba(0,0,0,0.05);word-wrap:break-word;max-width:100%;white-space:pre-wrap}
+.ai-message .bubble{padding:10px 14px;border-radius:18px;font-size:14px;line-height:1.85;box-shadow:0 4px 10px rgba(0,0,0,0.05);word-wrap:break-word;max-width:100%;white-space:pre-wrap;font-weight:500}
 .ai-message.user .bubble{background:var(--primary);color:#fff;border-bottom-right-radius:4px}
 .ai-message.ai .bubble{background:#fff;color:var(--text);border:1px solid #f0f0f5;border-bottom-left-radius:4px}
-.ai-message .msg-avatar{width:32px;height:32px;border-radius:50%;display:flex;justify-content:center;align-items:center;font-size:14px;flex-shrink:0}
+.ai-message .msg-avatar{width:30px;height:30px;border-radius:50%;display:flex;justify-content:center;align-items:center;font-size:13px;flex-shrink:0;margin-top:4px}
 .ai-message.user .msg-avatar{background:var(--blue);color:#fff}
 .ai-message.ai .msg-avatar{background:linear-gradient(135deg,#ff61c8,#7b61ff);color:#fff}
-.typing-cursor{display:inline-block;width:2px;height:16px;background:var(--purple);animation:blink 0.7s infinite;vertical-align:middle;margin-right:2px}
+.typing-cursor{display:inline-block;width:2px;height:15px;background:var(--purple);animation:blink 0.6s infinite;vertical-align:middle;margin-right:2px;border-radius:1px}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
-.ai-loading{display:flex;gap:4px;padding:15px}
-.ai-loading span{width:8px;height:8px;background:var(--muted);border-radius:50%;animation:bounce 1.4s infinite ease-in-out both}
+.ai-loading{display:flex;gap:4px;padding:8px}
+.ai-loading span{width:7px;height:7px;background:var(--muted);border-radius:50%;animation:bounce 1.4s infinite ease-in-out both}
 .ai-loading span:nth-child(1){animation-delay:-0.32s}
 .ai-loading span:nth-child(2){animation-delay:-0.16s}
 @keyframes bounce{0%,80%,100%{transform:scale(0)}40%{transform:scale(1)}}
-.ai-suggestions{display:flex;gap:8px;overflow-x:auto;padding:8px 15px;flex-shrink:0}
+.ai-suggestions{display:flex;gap:6px;overflow-x:auto;padding:6px 12px;flex-shrink:0;background:var(--bg)}
 .ai-suggestions::-webkit-scrollbar{display:none}
-.suggestion-chip{background:#fff;border:1px solid #e0e0e5;color:var(--text);padding:8px 14px;border-radius:20px;font-size:12px;cursor:pointer;white-space:nowrap;transition:all 0.2s;box-shadow:0 2px 5px rgba(0,0,0,0.03);font-family:inherit}
+.suggestion-chip{background:#fff;border:1px solid #e0e0e5;color:var(--text);padding:6px 12px;border-radius:16px;font-size:11px;cursor:pointer;white-space:nowrap;transition:all 0.2s;font-family:inherit;font-weight:600}
 .suggestion-chip:active{background:var(--pink);color:#fff;border-color:var(--pink)}
-.ai-input-area{padding:10px 15px 15px;background:var(--bg);flex-shrink:0;padding-bottom:calc(15px + env(safe-area-inset-bottom))}
-.ai-input-box{display:flex;gap:8px;background:#fff;border-radius:22px;padding:5px 5px 5px 15px;box-shadow:0 5px 20px rgba(0,0,0,0.08);border:2px solid #f0f0f5;align-items:center;transition:border-color 0.3s}
+/* ============ کادر نوشتن ============ */
+.ai-input-area{padding:8px 12px 12px;background:var(--bg);flex-shrink:0;padding-bottom:calc(12px + env(safe-area-inset-bottom));border-top:1px solid #e8e8ee}
+.ai-input-box{display:flex;gap:8px;background:#fff;border-radius:22px;padding:4px 4px 4px 14px;box-shadow:0 4px 15px rgba(0,0,0,0.06);border:2px solid #e8e8ee;align-items:center;transition:border-color 0.3s}
 .ai-input-box:focus-within{border-color:var(--purple)}
-.ai-input-box input{flex:1;border:none;outline:none;font-size:14px;background:transparent;font-family:inherit;padding:10px 0;color:var(--text)}
+.ai-input-box input{flex:1;border:none;outline:none;font-size:14px;background:transparent;font-family:inherit;padding:10px 0;color:var(--text);min-width:0}
 .ai-input-box input::placeholder{color:var(--muted)}
-.ai-send-btn{background:linear-gradient(135deg,#ff61c8,#7b61ff);color:#fff;border:none;width:42px;height:42px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;justify-content:center;align-items:center;transition:transform 0.2s;flex-shrink:0}
+.ai-send-btn{background:linear-gradient(135deg,#ff61c8,#7b61ff);color:#fff;border:none;width:40px;height:40px;border-radius:50%;font-size:15px;cursor:pointer;display:flex;justify-content:center;align-items:center;transition:transform 0.2s;flex-shrink:0}
 .ai-send-btn:active{transform:scale(0.9)}
-.ai-send-btn:disabled{opacity:0.5;cursor:not-allowed}
-.pdf-status{font-size:11px;color:var(--green);margin-top:4px;display:flex;align-items:center;gap:4px}
-.pdf-status.loading{color:var(--orange)}
-.pdf-status.error{color:var(--red)}
+.ai-send-btn:disabled{opacity:0.4;cursor:not-allowed}
+.pdf-status{font-size:10px;color:#fff;opacity:0.9;display:flex;align-items:center;gap:4px}
+/* Sidebar */
+.sidebar-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:none;z-index:2500;backdrop-filter:blur(4px)}
+.sidebar-overlay.active{display:block;animation:fadeIn 0.3s}
+.sidebar{position:absolute;top:0;right:-85%;width:85%;height:100%;background:#fff;z-index:2501;display:flex;flex-direction:column;transition:right 0.3s ease;box-shadow:-10px 0 30px rgba(0,0,0,0.2)}
+.sidebar.active{right:0}
+.sidebar-header{padding:18px 15px;background:linear-gradient(135deg,#ff61c8,#7b61ff);color:#fff;display:flex;flex-direction:column;gap:10px}
+.sidebar-header h2{font-size:16px;font-weight:800;display:flex;align-items:center;gap:8px}
+.sidebar-header .new-chat-btn{background:rgba(255,255,255,0.25);border:2px solid rgba(255,255,255,0.4);color:#fff;padding:10px;border-radius:12px;font-weight:bold;font-size:13px;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;transition:background 0.2s}
+.sidebar-header .new-chat-btn:active{background:rgba(255,255,255,0.4)}
+.sidebar-actions{padding:8px 15px;display:flex;gap:8px;border-bottom:1px solid #f0f0f5}
+.sidebar-actions button{flex:1;padding:8px;border-radius:10px;border:1px solid #e0e0e5;background:#fff;font-size:12px;font-weight:bold;font-family:inherit;cursor:pointer;color:var(--text);transition:all 0.2s}
+.sidebar-actions button:active{background:#f0f0f5}
+.sidebar-actions button.select-mode-active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.chat-list{flex:1;overflow-y:auto;padding:10px 15px}
+.chat-item{background:#fff;border:1px solid #f0f0f5;border-radius:14px;padding:12px;margin-bottom:8px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:10px;position:relative}
+.chat-item:active{transform:scale(0.98);background:#f8f9fc}
+.chat-item.active-chat{border-color:var(--purple);background:#f8f5ff}
+.chat-item.selected{background:#e6f0ff;border-color:var(--blue)}
+.chat-item .chat-checkbox{width:22px;height:22px;border:2px solid #d0d0d5;border-radius:6px;display:flex;justify-content:center;align-items:center;flex-shrink:0;transition:all 0.2s;background:#fff;font-size:12px;color:transparent}
+.chat-item.selected .chat-checkbox{background:var(--blue);border-color:var(--blue);color:#fff}
+.chat-item .chat-info{flex:1;min-width:0}
+.chat-item .chat-name{font-size:13px;font-weight:bold;color:var(--text);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-item .chat-preview{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.chat-item .chat-menu-btn{width:28px;height:28px;border-radius:8px;display:flex;justify-content:center;align-items:center;font-size:12px;color:var(--muted);cursor:pointer;transition:background 0.2s;flex-shrink:0;background:#f8f9fc}
+.chat-item .chat-menu-btn:active{background:#e0e0e5}
+.empty-chats{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty-chats i{font-size:50px;color:#d0d0d5;margin-bottom:15px;display:block}
+.empty-chats p{font-size:13px}
+.selection-bar{padding:12px 15px;border-top:1px solid #f0f0f5;background:#fff;display:none;gap:8px}
+.selection-bar.active{display:flex}
+.selection-bar button{flex:1;padding:12px;border-radius:12px;border:none;font-weight:bold;font-size:13px;cursor:pointer;font-family:inherit}
+.selection-bar .cancel-btn{background:#f0f0f5;color:var(--text)}
+.selection-bar .delete-selected-btn{background:var(--red);color:#fff}
+.chat-menu-popup{position:absolute;background:#fff;border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,0.15);padding:6px;display:none;z-index:2600;min-width:170px;border:1px solid #f0f0f5}
+.chat-menu-popup.active{display:block;animation:popIn 0.2s ease}
+.chat-menu-popup button{width:100%;padding:11px;border:none;background:transparent;text-align:right;font-family:inherit;font-size:13px;color:var(--text);cursor:pointer;border-radius:10px;display:flex;align-items:center;gap:10px;transition:background 0.2s}
+.chat-menu-popup button:active{background:#f0f0f5}
+.chat-menu-popup button.danger{color:var(--red)}
+.chat-menu-popup button i{width:18px;text-align:center}
+.edit-modal{background:#fff;padding:25px 20px;border-radius:22px;width:85%;max-width:340px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,0.3);animation:popIn 0.3s ease}
+.edit-modal h3{font-size:17px;font-weight:800;color:var(--primary);margin-bottom:15px}
+.edit-modal input{width:100%;padding:12px 15px;border:2px solid #e0e0e5;border-radius:12px;font-size:14px;font-family:inherit;outline:none;margin-bottom:15px;transition:border-color 0.2s;text-align:center;color:var(--text);background:#fff}
+.edit-modal input:focus{border-color:var(--purple)}
+.edit-modal .edit-actions{display:flex;gap:8px}
+.edit-modal .edit-actions button{flex:1;padding:12px;border-radius:12px;border:none;font-weight:bold;font-size:14px;cursor:pointer;font-family:inherit}
+.edit-modal .edit-actions .save-btn{background:var(--primary);color:#fff}
+.edit-modal .edit-actions .cancel-btn{background:#f0f0f5;color:var(--text)}
 .leaderboard-item{display:flex;align-items:center;background:#fff;padding:15px;border-radius:15px;margin-bottom:10px;box-shadow:var(--shadow);animation:slideUp 0.4s ease backwards}
 .rank{width:30px;font-weight:bold;color:var(--muted);text-align:center}
 .rank.gold{color:#ffcc00;font-size:18px}
@@ -215,7 +262,7 @@ html,body{height:100%;width:100%;overflow:hidden;background-color:#e0e0e0}
 .stat-info span{font-size:18px;font-weight:800}
 .placeholder-screen{text-align:center;padding-top:50px;color:var(--muted)}
 .placeholder-screen i{font-size:50px;margin-bottom:20px;color:#d0d0d0}
-::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:#d0d0d5;border-radius:10px}
 </style>
@@ -252,7 +299,7 @@ html,body{height:100%;width:100%;overflow:hidden;background-color:#e0e0e0}
 <div class="ai-home-icon"><i class="fa-solid fa-robot"></i></div>
 <div class="ai-home-text">
 <h3>هوش عربی</h3>
-<p>دستیار هوشمند کتاب عربی هفتم</p>
+<p>چت با دستیار هوشمند عربی</p>
 </div>
 </div>
 <div class="section-title">آمار شما</div>
@@ -330,17 +377,19 @@ html,body{height:100%;width:100%;overflow:hidden;background-color:#e0e0e0}
 <div class="ai-header">
 <div class="ai-avatar"><i class="fa-solid fa-robot"></i></div>
 <div class="ai-title">
-<h3>هوش عربی</h3>
-<div class="pdf-status" id="pdf-status"><i class="fa-solid fa-spinner fa-spin"></i> در حال بارگذاری کتاب...</div>
+<h3 id="current-chat-title">هوش عربی</h3>
+<div class="pdf-status" id="pdf-status"><i class="fa-solid fa-spinner fa-spin"></i> در حال بارگذاری...</div>
 </div>
+<div class="hdr-btn" onclick="startNewChat()" title="چت جدید"><i class="fa-solid fa-plus"></i></div>
+<div class="hdr-btn" onclick="toggleSidebar()" title="لیست چت‌ها"><i class="fa-solid fa-bars"></i></div>
 </div>
 <div class="ai-chat" id="ai-chat"></div>
 <div class="ai-suggestions" id="ai-suggestions">
 <div class="suggestion-chip" onclick="quickAsk('معنی کتاب چیست؟')">معنی کتاب</div>
 <div class="suggestion-chip" onclick="quickAsk('جمع کتاب چیست؟')">جمع کتاب</div>
 <div class="suggestion-chip" onclick="quickAsk('مترادف علم چیست؟')">مترادف علم</div>
+<div class="suggestion-chip" onclick="quickAsk('متضاد قریب چیست؟')">متضاد قریب</div>
 <div class="suggestion-chip" onclick="quickAsk('قواعد درس پنجم چیست؟')">قواعد درس ۵</div>
-<div class="suggestion-chip" onclick="quickAsk('حدیث درس سوم چیست؟')">حدیث درس ۳</div>
 </div>
 <div class="ai-input-area">
 <div class="ai-input-box">
@@ -413,36 +462,11 @@ html,body{height:100%;width:100%;overflow:hidden;background-color:#e0e0e0}
 <p>سطح: مبتدی</p>
 </div>
 <div class="stats-list" id="account-stats">
-<div class="stat-row">
-<div class="stat-row-right">
-<div class="stat-icon" style="background:#ffe6e6;color:var(--red)"><i class="fa-solid fa-heart"></i></div>
-<div class="stat-info"><h4>قلب</h4><span id="acc-hearts">3</span></div>
-</div>
-</div>
-<div class="stat-row">
-<div class="stat-row-right">
-<div class="stat-icon" style="background:#fff3e0;color:#ff9800"><i class="fa-solid fa-fire"></i></div>
-<div class="stat-info"><h4>استریک</h4><span id="acc-streak">0 روز</span></div>
-</div>
-</div>
-<div class="stat-row">
-<div class="stat-row-right">
-<div class="stat-icon" style="background:#e6ffed;color:var(--green)"><i class="fa-solid fa-star"></i></div>
-<div class="stat-info"><h4>امتیاز</h4><span id="acc-score">0</span></div>
-</div>
-</div>
-<div class="stat-row">
-<div class="stat-row-right">
-<div class="stat-icon" style="background:#fff9e6;color:var(--yellow)"><i class="fa-solid fa-coins"></i></div>
-<div class="stat-info"><h4>سکه</h4><span id="acc-coins">0</span></div>
-</div>
-</div>
-<div class="stat-row">
-<div class="stat-row-right">
-<div class="stat-icon" style="background:#f0e6ff;color:var(--purple)"><i class="fa-solid fa-gem"></i></div>
-<div class="stat-info"><h4>الماس</h4><span id="acc-diamonds">0</span></div>
-</div>
-</div>
+<div class="stat-row"><div class="stat-row-right"><div class="stat-icon" style="background:#ffe6e6;color:var(--red)"><i class="fa-solid fa-heart"></i></div><div class="stat-info"><h4>قلب</h4><span id="acc-hearts">3</span></div></div></div>
+<div class="stat-row"><div class="stat-row-right"><div class="stat-icon" style="background:#fff3e0;color:#ff9800"><i class="fa-solid fa-fire"></i></div><div class="stat-info"><h4>استریک</h4><span id="acc-streak">0 روز</span></div></div></div>
+<div class="stat-row"><div class="stat-row-right"><div class="stat-icon" style="background:#e6ffed;color:var(--green)"><i class="fa-solid fa-star"></i></div><div class="stat-info"><h4>امتیاز</h4><span id="acc-score">0</span></div></div></div>
+<div class="stat-row"><div class="stat-row-right"><div class="stat-icon" style="background:#fff9e6;color:var(--yellow)"><i class="fa-solid fa-coins"></i></div><div class="stat-info"><h4>سکه</h4><span id="acc-coins">0</span></div></div></div>
+<div class="stat-row"><div class="stat-row-right"><div class="stat-icon" style="background:#f0e6ff;color:var(--purple)"><i class="fa-solid fa-gem"></i></div><div class="stat-info"><h4>الماس</h4><span id="acc-diamonds">0</span></div></div></div>
 </div>
 </div>
 
@@ -452,6 +476,43 @@ html,body{height:100%;width:100%;overflow:hidden;background-color:#e0e0e0}
 <div class="nav-item home-btn active" data-color="blue" id="nav-home" onclick="navigateTo('screen-home',this)"><i class="fa-solid fa-home"></i><span>خانه</span></div>
 <div class="nav-item" data-color="red" id="nav-leaderboard" onclick="navigateTo('screen-leaderboard',this)"><i class="fa-solid fa-trophy"></i><span>رتبه‌بندی</span></div>
 <div class="nav-item" data-color="purple" id="nav-dictionary" onclick="navigateTo('screen-dictionary',this)"><i class="fa-solid fa-book"></i><span>المعجم</span></div>
+</div>
+
+<!-- Sidebar -->
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+<div class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<h2><i class="fa-solid fa-comments"></i> چت‌های من</h2>
+<button class="new-chat-btn" onclick="startNewChat();toggleSidebar();">
+<i class="fa-solid fa-plus"></i> چت جدید
+</button>
+</div>
+<div class="sidebar-actions">
+<button id="select-mode-btn" onclick="toggleSelectMode()"><i class="fa-solid fa-check-square"></i> انتخاب</button>
+<button id="select-all-btn" onclick="selectAllChats()" style="display:none">همه</button>
+</div>
+<div class="chat-list" id="chat-list"></div>
+<div class="selection-bar" id="selection-bar">
+<button class="cancel-btn" onclick="cancelSelection()">لغو</button>
+<button class="delete-selected-btn" onclick="deleteSelectedChats()"><i class="fa-solid fa-trash"></i> حذف (<span id="selected-count">0</span>)</button>
+</div>
+</div>
+
+<div class="chat-menu-popup" id="chat-menu-popup">
+<button onclick="editChatName()"><i class="fa-solid fa-pen"></i> ویرایش نام</button>
+<button onclick="duplicateChat()"><i class="fa-solid fa-copy"></i> کپی</button>
+<button class="danger" onclick="deleteCurrentChatFromMenu()"><i class="fa-solid fa-trash"></i> حذف</button>
+</div>
+
+<div class="modal-overlay" id="edit-modal">
+<div class="edit-modal">
+<h3>ویرایش نام چت</h3>
+<input type="text" id="edit-chat-input" placeholder="نام جدید...">
+<div class="edit-actions">
+<button class="save-btn" onclick="saveChatName()">ذخیره</button>
+<button class="cancel-btn" onclick="closeEditModal()">لغو</button>
+</div>
+</div>
 </div>
 
 <div class="modal-overlay" id="result-modal">
@@ -480,7 +541,7 @@ html,body{height:100%;width:100%;overflow:hidden;background-color:#e0e0e0}
 <div class="result-modal">
 <div class="trophy-icon heart-icon"><i class="fa-solid fa-heart-crack"></i></div>
 <h2>قلب‌های شما تمام شد!</h2>
-<p class="desc">نگران نباش! می‌تونی از فروشگاه قلب بخری یا اگه سکه نداشتی، قلب قرض بگیری.</p>
+<p class="desc">نگران نباش! می‌تونی از فروشگاه قلب بخری.</p>
 <button class="modal-action-btn" onclick="goToShopFromHeart()">🛒 رفتن به فروشگاه</button>
 <button class="modal-action-btn secondary" onclick="closeHeartModal()">بازگشت به خانه</button>
 </div>
@@ -490,7 +551,7 @@ html,body{height:100%;width:100%;overflow:hidden;background-color:#e0e0e0}
 <div class="result-modal">
 <div class="trophy-icon" style="color:var(--yellow)"><i class="fa-solid fa-hand-holding-heart"></i></div>
 <h2>سکه کافی نداری!</h2>
-<p class="desc" id="debt-desc">ولی می‌تونی <b>یه قلب قرض بگیری</b>.<br>بعداً که سکه داشتی، ازت کم میشه.</p>
+<p class="desc" id="debt-desc">می‌تونی <b>یه قلب قرض بگیری</b>.</p>
 <button class="modal-action-btn" onclick="acceptDebt()">قرض می‌گیرم ❤️</button>
 <button class="modal-action-btn secondary" onclick="closeDebtModal()">بی‌خیال</button>
 </div>
@@ -499,84 +560,74 @@ html,body{height:100%;width:100%;overflow:hidden;background-color:#e0e0e0}
 
 <script>
 // =========================================================
-// PDF.js Setup
+// PDF.js - با Timeout و محدودیت
 // =========================================================
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-let bookText = ''; // متن کامل کتاب
+let bookText = '';
 let isBookReady = false;
 
 async function loadBookPDF() {
     const statusEl = document.getElementById('pdf-status');
     try {
-        statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> در حال بارگذاری کتاب...';
-        statusEl.className = 'pdf-status loading';
+        statusEl.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> در حال بارگذاری...';
 
-        // بارگذاری فایل PDF از کنار HTML
-        const pdfUrl = 'arabi7.pdf';
-        const loadingTask = pdfjsLib.getDocument(pdfUrl);
-        const pdf = await loadingTask.promise;
+        // Timeout کلی 15 ثانیه
+        const timeoutPromise = new Promise((_, reject) =>
+            setTimeout(() => reject(new Error('timeout')), 15000)
+        );
 
-        let fullText = '';
-        const totalPages = pdf.numPages;
+        const loadPromise = (async () => {
+            const loadingTask = pdfjsLib.getDocument('arabi7.pdf');
+            const pdf = await loadingTask.promise;
+            const totalPages = pdf.numPages;
+            // حداکثر 50 صفحه برای جلوگیری از گیر کردن
+            const maxPages = Math.min(totalPages, 50);
+            let fullText = '';
 
-        for (let pageNum = 1; pageNum <= totalPages; pageNum++) {
-            const page = await pdf.getPage(pageNum);
-            const textContent = await page.getTextContent();
-            const pageText = textContent.items.map(item => item.str).join(' ');
-            fullText += `\n--- صفحه ${pageNum} ---\n${pageText}\n`;
-        }
+            for (let pageNum = 1; pageNum <= maxPages; pageNum++) {
+                const page = await pdf.getPage(pageNum);
+                const textContent = await page.textContent({ disableNormalization: false });
+                const pageText = textContent.items.map(item => item.str).join(' ');
+                fullText += '\n' + pageText + '\n';
+            }
+            return { text: fullText, pages: totalPages };
+        })();
 
-        bookText = fullText;
+        const result = await Promise.race([loadPromise, timeoutPromise]);
+
+        bookText = result.text;
         isBookReady = true;
-        statusEl.innerHTML = `<i class="fa-solid fa-check-circle"></i> کتاب آماده است (${totalPages} صفحه)`;
-        statusEl.className = 'pdf-status';
-        console.log('کتاب با موفقیت بارگذاری شد. تعداد کاراکترها:', bookText.length);
-
-        // پیام خوش‌آمد
-        addTypingAIMessage("👋 سلام! من **هوش عربی** هستم.\n\n📚 کتاب عربی هفتم رو کامل خوندم و آماده‌ام به سوالاتت جواب بدم!\n\n🎯 می‌تونم:\n• معنی کلمات رو بگم\n• جمع، مفرد، مترادف، متضاد\n• قواعد و احادیث هر درس\n• ترجمه متن‌ها\n\nچی می‌خوای بدونی؟");
+        statusEl.innerHTML = `<i class="fa-solid fa-check-circle"></i> آماده (${result.pages} ص)`;
+        console.log('کتاب بارگذاری شد - کاراکترها:', bookText.length);
 
     } catch (err) {
-        console.error('خطا در بارگذاری PDF:', err);
-        statusEl.innerHTML = '<i class="fa-solid fa-exclamation-triangle"></i> خطا در بارگذاری کتاب';
-        statusEl.className = 'pdf-status error';
-        addTypingAIMessage("⚠️ متأسفم، نتونستم فایل کتاب رو بخونم.\n\n💡 مطمئن شو فایل `arabi7.pdf` کنار `index.html` توی GitHub هست.\n\nبا این حال، می‌تونم از دیتابیس محلی کلمات استفاده کنم.");
+        console.error('PDF Error:', err);
+        statusEl.innerHTML = '<i class="fa-solid fa-check-circle"></i> آماده (دیتابیس محلی)';
+        isBookReady = false;
     }
 }
 
-// جستجو در متن کتاب
 function searchInBook(query) {
     if (!isBookReady || !bookText) return null;
-
     const cleanQuery = query.replace(/[\u064B-\u0652]/g, '').trim();
     if (cleanQuery.length < 2) return null;
-
-    // جستجوی کلمه در متن کتاب
     const keywords = cleanQuery.split(/\s+/).filter(w => w.length > 2);
     if (keywords.length === 0) return null;
-
-    // پیدا کردن جملاتی که کلمات کلیدی رو دارن
-    const sentences = bookText.split(/[.؟!،\n]/).filter(s => s.trim().length > 10);
+    const sentences = bookText.split(/[.؟!،\n]/).filter(s => s.trim().length > 15);
     const matches = [];
-
     for (const sentence of sentences) {
         let score = 0;
-        for (const kw of keywords) {
-            if (sentence.includes(kw)) score++;
-        }
-        if (score > 0) {
-            matches.push({ sentence: sentence.trim(), score });
-        }
+        for (const kw of keywords) if (sentence.includes(kw)) score++;
+        if (score > 0) matches.push({ sentence: sentence.trim(), score });
     }
-
     if (matches.length === 0) return null;
-
     matches.sort((a, b) => b.score - a.score);
-    return matches.slice(0, 5).map(m => m.sentence).join('\n\n');
+    return matches.slice(0, 3).map(m => m.sentence).join('\n\n');
 }
 
 // =========================================================
-// Dictionary (دیتابیس محلی کلمات)
+// دیتابیس محلی
 // =========================================================
 const dictionary={
 "کتاب":{fa:"کتاب",lesson:"الدرس الأول",jam:"کتب"},
@@ -661,10 +712,6 @@ const dictionary={
 "دعاء":{fa:"دعا",lesson:"الدرس الأول",jam:"أدعیة"},
 "أطفال":{fa:"کودک‌ها",lesson:"الدرس الأول",mofrad:"طفل"},
 "حروف":{fa:"حروف",lesson:"الدرس الأول",mofrad:"حرف"},
-"نعمتان":{fa:"دو نعمت",lesson:"الدرس الخامس",mofrad:"نعمة"},
-"یومان":{fa:"دو روز",lesson:"الدرس الخامس",mofrad:"یوم"},
-"ولدان":{fa:"دو پسر",lesson:"الدرس الخامس"},
-"بنتان":{fa:"دو دختر",lesson:"الدرس الخامس"},
 "ناجح":{fa:"موفق",lesson:"الدرس الرابع",jam:"ناجحون"},
 "مسلم":{fa:"مسلمان",lesson:"الدرس الرابع",jam:"مسلمون"},
 "کتب":{fa:"کتاب‌ها",lesson:"الدرس السادس",mofrad:"کتاب"},
@@ -686,7 +733,6 @@ const dictionary={
 "أسرة":{fa:"خانواده",lesson:"الدرس الثانی عشر"},
 "جوار":{fa:"گفت‌وگو",lesson:"الدرس الثانی عشر"},
 "هدیة":{fa:"هدیه",lesson:"الدرس التاسع"},
-"هدایا":{fa:"هدیه‌ها",lesson:"الدرس التاسع",mofrad:"هدیة"},
 "علامة":{fa:"علامت",lesson:"الدرس التاسع"},
 "رخیصة":{fa:"ارزان",lesson:"الدرس التاسع",motazad:"غالیة"},
 "غالیة":{fa:"گران",lesson:"الدرس التاسع",motazad:"رخیصة"},
@@ -715,7 +761,6 @@ const dictionary={
 "مصحف":{fa:"قرآن",lesson:"الدرس الحادی عشر",jam:"مصاحف"},
 "نظر":{fa:"نگاه",lesson:"الدرس الحادی عشر"},
 "وجع":{fa:"درد",lesson:"الدرس الحادی عشر"},
-"علم":{fa:"پرچم",lesson:"الدرس الحادی عشر",jam:"أعلام"},
 "عدد":{fa:"تعداد",lesson:"الدرس الحادی عشر",jam:"أعداد"},
 "ألوان":{fa:"رنگ‌ها",lesson:"الدرس الحادی عشر",mofrad:"لون"},
 "جواز":{fa:"گذرنامه",lesson:"الدرس الحادی عشر",jam:"جوازات"},
@@ -725,7 +770,6 @@ const dictionary={
 "غسل":{fa:"شُست",lesson:"الدرس الثالث عشر"},
 "قرأ":{fa:"خواند",lesson:"الدرس الثالث عشر"},
 "کان":{fa:"بود",lesson:"الدرس الثالث عشر"},
-"کتب فعل":{fa:"نوشت",lesson:"الدرس الثالث عشر"},
 "أخذ":{fa:"گرفت",lesson:"الدرس الثالث عشر"},
 "اشتری":{fa:"خرید",lesson:"الدرس الثالث عشر"},
 "أکل":{fa:"خورد",lesson:"الدرس الثالث عشر"},
@@ -797,10 +841,447 @@ function playCorrectSound(){initAudio();if(!audioContext)return;const n=audioCon
 function playWrongSound(){initAudio();if(!audioContext)return;const n=audioContext.currentTime;const o=audioContext.createOscillator(),g=audioContext.createGain();o.type='sawtooth';o.frequency.setValueAtTime(220,n);o.frequency.exponentialRampToValueAtTime(110,n+0.3);g.gain.setValueAtTime(0.2,n);g.gain.exponentialRampToValueAtTime(0.01,n+0.3);o.connect(g);g.connect(audioContext.destination);o.start(n);o.stop(n+0.3)}
 
 let state={coins:0,diamonds:0,hearts:3,streak:0,totalScore:0,stageStars:[0,0,0],stageCompleted:[false,false,false],stageScoreClaimed:[false,false,false],debtHearts:0,inProgress:null};
-function saveState(){localStorage.setItem('mojam_v15',JSON.stringify(state))}
-function loadState(){const s=localStorage.getItem('mojam_v15');if(s){try{state={...state,...JSON.parse(s)}}catch(e){}}}
+function saveState(){localStorage.setItem('mojam_v16',JSON.stringify(state))}
+function loadState(){const s=localStorage.getItem('mojam_v16');if(s){try{state={...state,...JSON.parse(s)}}catch(e){}}}
 
-let currentStageIndex=0,currentQuestionIndex=0,currentScore=0,currentHearts=3,correctAnswers=0,timerInterval,totalTimeLeft=25,isAnswered=false,lastPlayedStage=0,isAILoading=false;
+// =========================================================
+// Chat System
+// =========================================================
+let chats=[];
+let currentChatId=null;
+let selectedChats=new Set();
+let isSelectMode=false;
+let menuTargetChatId=null;
+
+function loadChats(){
+const s=localStorage.getItem('mojam_chats_v2');
+if(s){try{chats=JSON.parse(s)}catch(e){chats=[]}}
+if(chats.length===0){
+createNewChat();
+}else{
+currentChatId=localStorage.getItem('mojam_current_chat_v2')||chats[0].id;
+}
+}
+function saveChats(){
+localStorage.setItem('mojam_chats_v2',JSON.stringify(chats));
+localStorage.setItem('mojam_current_chat_v2',currentChatId||'');
+}
+function createNewChat(){
+const chat={
+id:'chat_'+Date.now()+'_'+Math.random().toString(36).substr(2,5),
+name:'چت جدید',
+messages:[],
+createdAt:Date.now(),
+updatedAt:Date.now()
+};
+chats.unshift(chat);
+currentChatId=chat.id;
+saveChats();
+return chat;
+}
+function getCurrentChat(){
+return chats.find(c=>c.id===currentChatId)||createNewChat();
+}
+function startNewChat(){
+const cur=getCurrentChat();
+if(cur.messages.length===0){toggleSidebar();return}
+createNewChat();
+renderChatList();
+renderCurrentChat();
+updateChatTitle();
+setTimeout(()=>{
+const welcomeMsg="👋 سلام! من **هوش عربی** هستم.\n\n🎯 می‌تونم:\n• معنی، جمع، مفرد، مترادف، متضاد\n• قواعد و احادیث هر درس\n• ترجمه متن‌ها\n\nچی می‌خوای بدونی؟";
+const chat=getCurrentChat();
+chat.messages.push({type:'ai',text:welcomeMsg});
+saveChats();
+addTypingAIMessage(welcomeMsg);
+},300);
+}
+function updateChatTitle(){
+const chat=getCurrentChat();
+document.getElementById('current-chat-title').textContent=chat.name||'هوش عربی';
+}
+function renderCurrentChat(){
+const chat=getCurrentChat();
+const chatEl=document.getElementById('ai-chat');
+chatEl.innerHTML='';
+chat.messages.forEach(msg=>{
+if(msg.type==='user')addUserMessage(msg.text,true);
+else if(msg.type==='ai')addTypingAIMessage(msg.text,true);
+});
+chatEl.scrollTop=chatEl.scrollHeight;
+}
+function renderChatList(){
+const list=document.getElementById('chat-list');
+list.innerHTML='';
+if(chats.length===0){
+list.innerHTML='<div class="empty-chats"><i class="fa-solid fa-comments"></i><p>هنوز چتی نداری</p></div>';
+return;
+}
+chats.forEach(chat=>{
+const item=document.createElement('div');
+item.className='chat-item';
+if(chat.id===currentChatId)item.classList.add('active-chat');
+if(selectedChats.has(chat.id))item.classList.add('selected');
+
+let checkboxHTML='';
+if(isSelectMode)checkboxHTML=`<div class="chat-checkbox">${selectedChats.has(chat.id)?'<i class="fa-solid fa-check"></i>':''}</div>`;
+
+const lastMsg=chat.messages.length>0?chat.messages[chat.messages.length-1]:null;
+let preview='چت خالی';
+if(lastMsg){
+if(lastMsg.type==='user')preview='👤 '+lastMsg.text.substring(0,30);
+else if(lastMsg.type==='ai')preview='🤖 '+lastMsg.text.substring(0,30);
+}
+
+item.innerHTML=`
+${checkboxHTML}
+<div class="chat-info">
+<div class="chat-name">${escapeHTML(chat.name||'چت جدید')}</div>
+<div class="chat-preview">${escapeHTML(preview)}</div>
+</div>
+${!isSelectMode?`<div class="chat-menu-btn" onclick="event.stopPropagation();openChatMenu(event,'${chat.id}')"><i class="fa-solid fa-ellipsis-vertical"></i></div>`:''}
+`;
+
+item.onclick=(e)=>{
+if(isSelectMode)toggleChatSelection(chat.id);
+else switchChat(chat.id);
+};
+
+list.appendChild(item);
+});
+}
+function switchChat(chatId){
+currentChatId=chatId;
+saveChats();
+renderCurrentChat();
+updateChatTitle();
+renderChatList();
+toggleSidebar();
+}
+function toggleSidebar(){
+const sb=document.getElementById('sidebar');
+const ov=document.getElementById('sidebar-overlay');
+sb.classList.toggle('active');
+ov.classList.toggle('active');
+if(sb.classList.contains('active'))renderChatList();
+}
+function toggleSelectMode(){
+isSelectMode=!isSelectMode;
+if(!isSelectMode)selectedChats.clear();
+const btn=document.getElementById('select-mode-btn');
+const selAll=document.getElementById('select-all-btn');
+const selBar=document.getElementById('selection-bar');
+if(isSelectMode){
+btn.classList.add('select-mode-active');
+btn.innerHTML='<i class="fa-solid fa-times"></i> لغو';
+selAll.style.display='block';
+selBar.classList.add('active');
+}else{
+btn.classList.remove('select-mode-active');
+btn.innerHTML='<i class="fa-solid fa-check-square"></i> انتخاب';
+selAll.style.display='none';
+selBar.classList.remove('active');
+}
+updateSelectedCount();
+renderChatList();
+}
+function toggleChatSelection(chatId){
+if(selectedChats.has(chatId))selectedChats.delete(chatId);
+else selectedChats.add(chatId);
+updateSelectedCount();
+renderChatList();
+}
+function updateSelectedCount(){document.getElementById('selected-count').textContent=selectedChats.size}
+function selectAllChats(){
+if(selectedChats.size===chats.length)selectedChats.clear();
+else chats.forEach(c=>selectedChats.add(c.id));
+updateSelectedCount();
+renderChatList();
+}
+function cancelSelection(){
+isSelectMode=false;
+selectedChats.clear();
+const btn=document.getElementById('select-mode-btn');
+const selAll=document.getElementById('select-all-btn');
+const selBar=document.getElementById('selection-bar');
+btn.classList.remove('select-mode-active');
+btn.innerHTML='<i class="fa-solid fa-check-square"></i> انتخاب';
+selAll.style.display='none';
+selBar.classList.remove('active');
+renderChatList();
+}
+function deleteSelectedChats(){
+if(selectedChats.size===0)return;
+if(!confirm(`آیا از حذف ${selectedChats.size} چت مطمئن هستی؟`))return;
+chats=chats.filter(c=>!selectedChats.has(c.id));
+if(!chats.find(c=>c.id===currentChatId)){
+if(chats.length>0)currentChatId=chats[0].id;
+else currentChatId=createNewChat().id;
+}
+selectedChats.clear();
+cancelSelection();
+saveChats();
+renderChatList();
+renderCurrentChat();
+updateChatTitle();
+}
+function openChatMenu(event,chatId){
+event.stopPropagation();
+menuTargetChatId=chatId;
+const popup=document.getElementById('chat-menu-popup');
+const rect=event.target.getBoundingClientRect();
+const appRect=document.getElementById('app').getBoundingClientRect();
+popup.style.top=(rect.bottom-appRect.top+5)+'px';
+popup.style.right=(appRect.right-rect.right)+'px';
+popup.classList.add('active');
+setTimeout(()=>{document.addEventListener('click',closeChatMenuOutside)},10);
+}
+function closeChatMenuOutside(e){
+const popup=document.getElementById('chat-menu-popup');
+if(!popup.contains(e.target)){
+popup.classList.remove('active');
+document.removeEventListener('click',closeChatMenuOutside);
+}
+}
+function editChatName(){
+const chat=chats.find(c=>c.id===menuTargetChatId);
+if(!chat)return;
+document.getElementById('edit-chat-input').value=chat.name||'';
+document.getElementById('chat-menu-popup').classList.remove('active');
+document.getElementById('edit-modal').classList.add('active');
+setTimeout(()=>document.getElementById('edit-chat-input').focus(),200);
+}
+function saveChatName(){
+const newName=document.getElementById('edit-chat-input').value.trim();
+if(!newName)return;
+const chat=chats.find(c=>c.id===menuTargetChatId);
+if(chat){
+chat.name=newName;
+saveChats();
+renderChatList();
+if(chat.id===currentChatId)updateChatTitle();
+}
+closeEditModal();
+}
+function closeEditModal(){document.getElementById('edit-modal').classList.remove('active')}
+function duplicateChat(){
+const chat=chats.find(c=>c.id===menuTargetChatId);
+if(!chat)return;
+const newChat={
+id:'chat_'+Date.now()+'_'+Math.random().toString(36).substr(2,5),
+name:chat.name+' (کپی)',
+messages:JSON.parse(JSON.stringify(chat.messages)),
+createdAt:Date.now(),
+updatedAt:Date.now()
+};
+chats.unshift(newChat);
+saveChats();
+renderChatList();
+document.getElementById('chat-menu-popup').classList.remove('active');
+}
+function deleteCurrentChatFromMenu(){
+if(!confirm('آیا از حذف این چت مطمئن هستی؟'))return;
+chats=chats.filter(c=>c.id!==menuTargetChatId);
+if(currentChatId===menuTargetChatId){
+if(chats.length>0)currentChatId=chats[0].id;
+else currentChatId=createNewChat().id;
+}
+saveChats();
+renderChatList();
+renderCurrentChat();
+updateChatTitle();
+document.getElementById('chat-menu-popup').classList.remove('active');
+}
+
+// =========================================================
+// AI Chat
+// =========================================================
+let isAILoading=false;
+let typingTimeouts=[];
+
+function sendAIMessage(){
+if(isAILoading)return;
+const input=document.getElementById('ai-input');
+const text=input.value.trim();
+if(!text)return;
+const chat=getCurrentChat();
+if(chat.messages.length===0){
+chat.name=text.substring(0,25)+(text.length>25?'...':'');
+saveChats();
+updateChatTitle();
+renderChatList();
+}
+chat.messages.push({type:'user',text:text});
+chat.updatedAt=Date.now();
+saveChats();
+addUserMessage(text);
+input.value='';
+
+isAILoading=true;
+document.getElementById('ai-send-btn').disabled=true;
+showAILoading();
+
+const localResponse=searchLocalDB(text);
+if(localResponse){
+setTimeout(()=>{
+removeAILoading();
+chat.messages.push({type:'ai',text:localResponse});
+saveChats();
+addTypingAIMessage(localResponse);
+isAILoading=false;
+document.getElementById('ai-send-btn').disabled=false;
+},500);
+return;
+}
+
+const bookResponse=searchInBook(text);
+if(bookResponse){
+const bookAnswer=`📚 **از کتاب عربی هفتم:**\n\n${bookResponse}`;
+setTimeout(()=>{
+removeAILoading();
+chat.messages.push({type:'ai',text:bookAnswer});
+saveChats();
+addTypingAIMessage(bookAnswer);
+isAILoading=false;
+document.getElementById('ai-send-btn').disabled=false;
+},500);
+return;
+}
+
+askPollinationsAI(text).then(response=>{
+removeAILoading();
+chat.messages.push({type:'ai',text:response});
+saveChats();
+addTypingAIMessage(response);
+isAILoading=false;
+document.getElementById('ai-send-btn').disabled=false;
+}).catch(err=>{
+removeAILoading();
+const errMsg="❌ متأسفم، خطایی رخ داد. لطفاً دوباره تلاش کن.";
+chat.messages.push({type:'ai',text:errMsg});
+saveChats();
+addTypingAIMessage(errMsg);
+isAILoading=false;
+document.getElementById('ai-send-btn').disabled=false;
+});
+}
+
+function searchLocalDB(question){
+const q=question.replace(/[\u064B-\u0652]/g,'').trim();
+for(let key in dictionary){
+const ck=key.replace(/[\u064B-\u0652]/g,'');
+if(q.includes(ck)||q.includes(key)){
+const d=dictionary[key];
+let resp=`📖 **${key}** به معنی **${d.fa}** است.\n\n📚 **درس:** ${d.lesson}\n`;
+if(d.jam)resp+=`🔢 **جمع:** ${d.jam}\n`;
+if(d.mofrad)resp+=`🔹 **مفرد:** ${d.mofrad}\n`;
+if(d.motaradef)resp+=`🟦 **مترادف:** ${d.motaradef}\n`;
+if(d.motazad)resp+=`🟥 **متضاد:** ${d.motazad}\n`;
+if(d.moanes)resp+=`♀️ **مؤنث:** ${d.moanes}\n`;
+if(q.includes('معنی')||q.includes('جمع')||q.includes('مفرد')||q.includes('مترادف')||q.includes('متضاد')||q.includes('ترکیب')||q.includes('درس'))return resp;
+}
+}
+return null;
+}
+
+async function askPollinationsAI(question){
+const systemPrompt=`تو یک معلم عربی هستی که فقط درباره کتاب عربی پایه هفتم پاسخ می‌دهی. همیشه به فارسی جواب بده. کوتاه، دقیق و آموزشی.`;
+try{
+const encodedQ=encodeURIComponent(question);
+const encodedSys=encodeURIComponent(systemPrompt);
+const url=`https://text.pollinations.ai/${encodedQ}?system=${encodedSys}&model=openai&json=false`;
+const controller=new AbortController();
+const timeoutId=setTimeout(()=>controller.abort(),20000);
+const response=await fetch(url,{signal:controller.signal});
+clearTimeout(timeoutId);
+if(!response.ok)throw new Error('Network error');
+const text=await response.text();
+return text.trim()||"متأسفم، پاسخ مناسب پیدا نشد.";
+}catch(e){
+return "❌ خطا در ارتباط با هوش مصنوعی. لطفاً اینترنت رو بررسی کن.";
+}
+}
+
+function quickAsk(text){document.getElementById('ai-input').value=text;sendAIMessage()}
+
+function addUserMessage(text,skipAnim=false){
+const chat=document.getElementById('ai-chat');
+const msg=document.createElement('div');
+msg.className='ai-message user';
+msg.innerHTML=`<div class="msg-avatar"><i class="fa-solid fa-user"></i></div><div class="bubble">${escapeHTML(text).replace(/\n/g,'<br>')}</div>`;
+chat.appendChild(msg);
+chat.scrollTop=chat.scrollHeight;
+}
+
+// تایپ تدریجی سریع
+function addTypingAIMessage(text,skipAnim=false){
+const chat=document.getElementById('ai-chat');
+const msg=document.createElement('div');
+msg.className='ai-message ai';
+msg.innerHTML=`<div class="msg-avatar"><i class="fa-solid fa-robot"></i></div><div class="bubble"><span class="typing-text"></span></div>`;
+chat.appendChild(msg);
+chat.scrollTop=chat.scrollHeight;
+
+const bubble=msg.querySelector('.bubble');
+const typingText=msg.querySelector('.typing-text');
+
+if(skipAnim){
+typingText.innerHTML=formatText(text);
+chat.scrollTop=chat.scrollHeight;
+return;
+}
+
+// نمایش cursor
+const cursor=document.createElement('span');
+cursor.className='typing-cursor';
+bubble.appendChild(cursor);
+
+// تایپ سریع - هر 8ms یک کاراکتر (یا چند کاراکتر)
+let i=0;
+const totalLen=text.length;
+const speed=8;
+const step=1; // هر بار یک کاراکتر
+
+function typeNext(){
+if(i<totalLen){
+i+=step;
+if(i>totalLen)i=totalLen;
+typingText.innerHTML=formatText(text.substring(0,i));
+chat.scrollTop=chat.scrollHeight;
+typingTimeouts.push(setTimeout(typeNext,speed));
+}else{
+if(cursor.parentNode)cursor.remove();
+chat.scrollTop=chat.scrollHeight;
+}
+}
+typeNext();
+}
+
+function formatText(text){
+return escapeHTML(text)
+.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+.replace(/\n/g,'<br>');
+}
+
+function escapeHTML(str){
+return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function showAILoading(){
+const chat=document.getElementById('ai-chat');
+const l=document.createElement('div');
+l.className='ai-message ai';l.id='ai-loading';
+l.innerHTML=`<div class="msg-avatar"><i class="fa-solid fa-robot"></i></div><div class="bubble"><div class="ai-loading"><span></span><span></span><span></span></div></div>`;
+chat.appendChild(l);
+chat.scrollTop=chat.scrollHeight;
+}
+function removeAILoading(){const l=document.getElementById('ai-loading');if(l)l.remove()}
+
+// =========================================================
+// سایر توابع بازی
+// =========================================================
+let currentStageIndex=0,currentQuestionIndex=0,currentScore=0,currentHearts=3,correctAnswers=0,timerInterval,totalTimeLeft=25,isAnswered=false,lastPlayedStage=0;
 
 function showMessage(type,title,desc,btnText='باشه',onClose=null){const m=document.getElementById('msg-modal'),i=document.getElementById('msg-icon'),t=document.getElementById('msg-title'),d=document.getElementById('msg-desc'),b=document.getElementById('msg-btn');i.className='trophy-icon';const tm={success:{icon:'fa-circle-check',cls:'success-icon'},error:{icon:'fa-circle-xmark',cls:'error-icon'},warning:{icon:'fa-triangle-exclamation',cls:'warning-icon'},info:{icon:'fa-circle-info',cls:'info-icon'}};const c=tm[type]||tm.info;i.classList.add(c.cls);i.innerHTML=`<i class="fa-solid ${c.icon}"></i>`;t.innerText=title;d.innerHTML=desc;b.innerText=btnText;b.onclick=function(){closeMsgModal();if(onClose)onClose()};m.classList.add('active')}
 function closeMsgModal(){document.getElementById('msg-modal').classList.remove('active')}
@@ -835,9 +1316,9 @@ function showHeartEmptyModal(){saveGameProgress();document.getElementById('heart
 function closeHeartModal(){document.getElementById('heart-empty-modal').classList.remove('active');navigateTo('screen-home');document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.getElementById('nav-home').classList.add('active')}
 function goToShopFromHeart(){document.getElementById('heart-empty-modal').classList.remove('active');navigateTo('screen-shop');document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));document.getElementById('nav-shop').classList.add('active')}
 
-function showDebtModal(){const d=document.getElementById('debt-desc');if(state.debtHearts>0){d.innerHTML=`شما الان <b>${state.debtHearts} قلب قرضی</b> دارید.<br>می‌تونی <b>یه قلب دیگه هم قرض بگیری</b>.`}else{d.innerHTML=`ولی می‌تونی <b>یه قلب قرض بگیری</b>.<br>بعداً که سکه داشتی، ازت کم میشه.`}document.getElementById('debt-modal').classList.add('active')}
+function showDebtModal(){const d=document.getElementById('debt-desc');if(state.debtHearts>0){d.innerHTML=`شما الان <b>${state.debtHearts} قلب قرضی</b> دارید.`}else{d.innerHTML=`می‌تونی <b>یه قلب قرض بگیری</b>. بعداً ازت کم میشه.`}document.getElementById('debt-modal').classList.add('active')}
 function closeDebtModal(){document.getElementById('debt-modal').classList.remove('active')}
-function acceptDebt(){state.debtHearts+=1;state.hearts+=1;saveState();updateAllUI();closeDebtModal();showMessage('success','قرض گرفته شد!',`✅ یک قلب قرض گرفتی!<br>مجموع قرض‌ها: <b>${state.debtHearts} قلب</b>`,'باشه')}
+function acceptDebt(){state.debtHearts+=1;state.hearts+=1;saveState();updateAllUI();closeDebtModal();showMessage('success','قرض گرفته شد!',`✅ یک قلب قرض گرفتی!<br>مجموع: <b>${state.debtHearts} قلب</b>`,'باشه')}
 
 function searchDict(){const query=document.getElementById('dict-input').value.trim();const results=document.getElementById('dict-results');results.innerHTML='';if(query===''){const dw=['کتاب','قلم','مدرسة','باب','ولد','علم'];dw.forEach(k=>{if(dictionary[k])results.innerHTML+=renderWordCard(k,dictionary[k])});return}const cq=query.replace(/[\u064B-\u0652]/g,'').toLowerCase();const matches=[];for(let k in dictionary){const ck=k.replace(/[\u064B-\u0652]/g,'').toLowerCase();const d=dictionary[k];const cf=d.fa.toLowerCase();if(ck.startsWith(cq)||ck.includes(cq)||cf.includes(cq)||d.lesson.toLowerCase().includes(cq)||(d.jam&&d.jam.toLowerCase().includes(cq))||(d.mofrad&&d.mofrad.toLowerCase().includes(cq))||(d.motaradef&&d.motaradef.toLowerCase().includes(cq))||(d.motazad&&d.motazad.toLowerCase().includes(cq))){const sw=ck.startsWith(cq)||cf.startsWith(cq);matches.push({key:k,data:d,startsWith:sw})}}matches.sort((a,b)=>(b.startsWith?1:0)-(a.startsWith?1:0));if(matches.length>0){matches.forEach(m=>{results.innerHTML+=renderWordCard(m.key,m.data)})}else{results.innerHTML=`<div class="placeholder-screen"><i class="fa-solid fa-circle-exclamation" style="color:var(--red)"></i><p>کلمه‌ای یافت نشد</p></div>`}}
 
@@ -848,160 +1329,29 @@ function buyItem(type,cost){let cb=false,mc=null;if(type==='heart_coin'){if(stat
 function createFallingWords(){const c=document.getElementById('falling-words');const w=["كتاب","قلم","مدرسة","باب","ولد","علم","نور","قمر","شمس","ماء"];for(let i=0;i<15;i++){const s=document.createElement('span');s.innerText=w[Math.floor(Math.random()*w.length)];s.style.left=Math.random()*100+'%';s.style.animationDuration=(Math.random()*3+3)+'s';s.style.animationDelay=Math.random()*2+'s';s.style.fontSize=(Math.random()*20+16)+'px';s.style.opacity=Math.random()*0.5+0.3;c.appendChild(s)}}
 
 // =========================================================
-// هوش عربی (با تایپ تدریجی)
-// =========================================================
-function sendAIMessage(){
-if(isAILoading)return;
-const input=document.getElementById('ai-input');
-const text=input.value.trim();
-if(!text)return;
-addUserMessage(text);
-input.value='';
-isAILoading=true;
-document.getElementById('ai-send-btn').disabled=true;
-showAILoading();
-
-// جستجو در دیتابیس محلی
-const localResponse=searchLocalDB(text);
-if(localResponse){
-setTimeout(()=>{
-removeAILoading();
-addTypingAIMessage(localResponse);
-isAILoading=false;
-document.getElementById('ai-send-btn').disabled=false;
-},600);
-return;
-}
-
-// جستجو در متن کتاب PDF
-const bookResponse=searchInBook(text);
-if(bookResponse){
-const bookAnswer=`📚 **پاسخ از کتاب عربی هفتم:**\n\n${bookResponse}`;
-setTimeout(()=>{
-removeAILoading();
-addTypingAIMessage(bookAnswer);
-isAILoading=false;
-document.getElementById('ai-send-btn').disabled=false;
-},600);
-return;
-}
-
-// هوش مصنوعی آنلاین
-askPollinationsAI(text).then(response=>{
-removeAILoading();
-addTypingAIMessage(response);
-isAILoading=false;
-document.getElementById('ai-send-btn').disabled=false;
-}).catch(err=>{
-removeAILoading();
-addTypingAIMessage("❌ متأسفم، در ارتباط با هوش مصنوعی خطایی رخ داد. لطفاً دوباره تلاش کن.");
-isAILoading=false;
-document.getElementById('ai-send-btn').disabled=false;
-});
-}
-
-function searchLocalDB(question){
-const q=question.replace(/[\u064B-\u0652]/g,'').trim();
-for(let key in dictionary){
-const ck=key.replace(/[\u064B-\u0652]/g,'');
-if(q.includes(ck)||q.includes(key)){
-const d=dictionary[key];
-let resp=`📖 **${key}** به معنی **${d.fa}** است.\n\n📚 **درس:** ${d.lesson}\n`;
-if(d.jam)resp+=`🔢 **جمع:** ${d.jam}\n`;
-if(d.mofrad)resp+=`🔹 **مفرد:** ${d.mofrad}\n`;
-if(d.motaradef)resp+=`🟦 **مترادف:** ${d.motaradef}\n`;
-if(d.motazad)resp+=`🟥 **متضاد:** ${d.motazad}\n`;
-if(d.combo)resp+=`🧩 **ترکیب:** ${d.combo}\n`;
-if(d.moanes)resp+=`♀️ **مؤنث:** ${d.moanes}\n`;
-if(q.includes('معنی')||q.includes('جمع')||q.includes('مفرد')||q.includes('مترادف')||q.includes('متضاد')||q.includes('ترکیب')||q.includes('درس')){
-return resp;
-}
-}
-}
-return null;
-}
-
-async function askPollinationsAI(question){
-const systemPrompt=`تو یک معلم عربی هستی که فقط درباره کتاب عربی پایه هفتم پاسخ می‌دهی. همیشه به فارسی جواب بده. کوتاه و آموزشی.`;
-try{
-const encodedQ=encodeURIComponent(question);
-const encodedSys=encodeURIComponent(systemPrompt);
-const url=`https://text.pollinations.ai/${encodedQ}?system=${encodedSys}&model=openai&json=false`;
-const response=await fetch(url);
-if(!response.ok)throw new Error('Network error');
-const text=await response.text();
-return text.trim()||"متأسفم، پاسخ مناسب پیدا نشد.";
-}catch(e){
-return "❌ خطا در ارتباط با هوش مصنوعی. لطفاً دوباره تلاش کن.";
-}
-}
-
-function quickAsk(text){document.getElementById('ai-input').value=text;sendAIMessage()}
-
-function addUserMessage(text){
-const chat=document.getElementById('ai-chat');
-const msg=document.createElement('div');
-msg.className='ai-message user';
-msg.innerHTML=`<div class="msg-avatar"><i class="fa-solid fa-user"></i></div><div class="bubble">${escapeHTML(text)}</div>`;
-chat.appendChild(msg);
-chat.scrollTop=chat.scrollHeight;
-}
-
-function addTypingAIMessage(text){
-const chat=document.getElementById('ai-chat');
-const msg=document.createElement('div');
-msg.className='ai-message ai';
-const formatted=escapeHTML(text).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
-msg.innerHTML=`<div class="msg-avatar"><i class="fa-solid fa-robot"></i></div><div class="bubble"><span class="typing-text"></span><span class="typing-cursor"></span></div>`;
-chat.appendChild(msg);
-chat.scrollTop=chat.scrollHeight;
-
-const bubble=msg.querySelector('.bubble');
-const typingText=msg.querySelector('.typing-text');
-
-// تبدیل HTML به متن خام برای تایپ
-const plainText=text;
-let i=0;
-const speed=25; // میلی‌ثانیه بین هر کاراکتر
-
-function typeNext(){
-if(i<plainText.length){
-// اضافه کردن کاراکتر بعدی
-const chunk=plainText.substring(0,i+1);
-// رندر HTML نهایی برای این چانک
-typingText.innerHTML=escapeHTML(chunk).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
-i++;
-chat.scrollTop=chat.scrollHeight;
-setTimeout(typeNext,speed);
-}else{
-// پایان تایپ - حذف cursor
-const cursor=bubble.querySelector('.typing-cursor');
-if(cursor)cursor.remove();
-chat.scrollTop=chat.scrollHeight;
-}
-}
-typeNext();
-}
-
-function escapeHTML(str){
-return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-function showAILoading(){const chat=document.getElementById('ai-chat');const l=document.createElement('div');l.className='ai-message ai';l.id='ai-loading';l.innerHTML=`<div class="msg-avatar"><i class="fa-solid fa-robot"></i></div><div class="bubble"><div class="ai-loading"><span></span><span></span><span></span></div></div>`;chat.appendChild(l);chat.scrollTop=chat.scrollHeight}
-function removeAILoading(){const l=document.getElementById('ai-loading');if(l)l.remove()}
-
-// =========================================================
 // Init
 // =========================================================
 window.onload=function(){
 createFallingWords();
 loadState();
+loadChats();
 updateAllUI();
+renderCurrentChat();
+updateChatTitle();
 history.replaceState(null,'','');
 history.pushState(null,'','');
 searchDict();
-// بارگذاری PDF
-loadBookPDF();
+// بارگذاری PDF در پس‌زمینه (بدون بلاک کردن)
+setTimeout(()=>loadBookPDF(),1000);
+setTimeout(()=>{
+const chat=getCurrentChat();
+if(chat.messages.length===0){
+const welcomeMsg="👋 سلام! من **هوش عربی** هستم.\n\n📚 کتاب عربی هفتم رو می‌شناسم و می‌تونم:\n• معنی، جمع، مفرد، مترادف، متضاد\n• قواعد و احادیث هر درس\n• ترجمه متن‌ها\n\nچی می‌خوای بدونی؟";
+chat.messages.push({type:'ai',text:welcomeMsg});
+saveChats();
+addTypingAIMessage(welcomeMsg);
+}
+},1200);
 setTimeout(()=>{document.getElementById('screen-splash').classList.add('hidden')},2000);
 };
 </script>
