@@ -6,7 +6,6 @@
 <title>المُعجَم السابِع</title>
 <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script src="https://js.puter.com/v2/"></script>
 <style>
 :root{--bg:#f4f6fa;--card:#fff;--text:#1e1e2f;--muted:#8e8e9e;--primary:#2b2d42;--purple:#7b61ff;--green:#4cd964;--yellow:#ffcc00;--red:#ff4d4d;--blue:#4da6ff;--pink:#ff61c8;--orange:#ff9800;--shadow:0 8px 24px rgba(0,0,0,0.05);--radius:20px}
 *{box-sizing:border-box;margin:0;padding:0;font-family:'Vazirmatn',sans-serif;user-select:none;-webkit-tap-highlight-color:transparent}
@@ -184,6 +183,13 @@ html,body{height:100%;width:100%;overflow:hidden;background-color:#e0e0e0}
 .ai-input-box input{flex:1;border:none;outline:none;font-size:14px;background:transparent;font-family:inherit;padding:8px 0}
 .ai-send-btn{background:linear-gradient(135deg,#ff61c8,#7b61ff);color:#fff;border:none;width:42px;height:42px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;justify-content:center;align-items:center}
 .ai-send-btn:disabled{opacity:0.5;cursor:not-allowed}
+/* تصویر در چت */
+.ai-image-card{background:#fff;border-radius:18px;padding:10px;box-shadow:0 6px 20px rgba(0,0,0,0.08);border:1px solid #f0f0f5;max-width:100%;animation:popIn 0.5s ease}
+.ai-image-card img{width:100%;border-radius:12px;display:block;background:#f0f0f5;min-height:200px}
+.ai-image-card .img-actions{display:flex;gap:8px;margin-top:10px}
+.ai-image-card .img-actions button{flex:1;padding:8px;border-radius:10px;border:none;font-weight:bold;font-size:12px;cursor:pointer;font-family:inherit}
+.ai-image-card .img-actions .download-btn{background:var(--green);color:#fff}
+.ai-image-card .img-actions .regen-btn{background:#f0f0f5;color:var(--primary)}
 .leaderboard-item{display:flex;align-items:center;background:#fff;padding:15px;border-radius:15px;margin-bottom:10px;box-shadow:var(--shadow);animation:slideUp 0.4s ease backwards}
 .rank{width:30px;font-weight:bold;color:var(--muted);text-align:center}
 .rank.gold{color:#ffcc00;font-size:18px}
@@ -241,7 +247,7 @@ html,body{height:100%;width:100%;overflow:hidden;background-color:#e0e0e0}
 <div class="ai-home-icon"><i class="fa-solid fa-robot"></i></div>
 <div class="ai-home-text">
 <h3>هوش عربی</h3>
-<p>دستیار هوشمند عربی - بپرس!</p>
+<p>چت + ساخت عکس - بپرس!</p>
 </div>
 </div>
 <div class="section-title">آمار شما</div>
@@ -321,7 +327,7 @@ html,body{height:100%;width:100%;overflow:hidden;background-color:#e0e0e0}
 <div class="ai-avatar"><i class="fa-solid fa-robot"></i></div>
 <div>
 <h3>هوش عربی</h3>
-<p>آنلاین - آماده پاسخگویی</p>
+<p>آنلاین - چت و ساخت عکس</p>
 </div>
 </div>
 <div class="ai-chat" id="ai-chat"></div>
@@ -329,12 +335,12 @@ html,body{height:100%;width:100%;overflow:hidden;background-color:#e0e0e0}
 <div class="suggestion-chip" onclick="quickAsk('معنی کتاب چیست؟')">معنی کتاب</div>
 <div class="suggestion-chip" onclick="quickAsk('جمع کتاب چیست؟')">جمع کتاب</div>
 <div class="suggestion-chip" onclick="quickAsk('مترادف علم چیست؟')">مترادف علم</div>
-<div class="suggestion-chip" onclick="quickAsk('قواعد درس پنجم چیست؟')">قواعد درس ۵</div>
-<div class="suggestion-chip" onclick="quickAsk('حدیث درس سوم چیست؟')">حدیث درس ۳</div>
-<div class="suggestion-chip" onclick="quickAsk('یک جمله با کلمه مدرسه بساز')">جمله با مدرسه</div>
+<div class="suggestion-chip" onclick="quickAsk('عکس یک کتاب بساز')">🎨 عکس کتاب</div>
+<div class="suggestion-chip" onclick="quickAsk('عکس یک مدرسه بساز')">🎨 عکس مدرسه</div>
+<div class="suggestion-chip" onclick="quickAsk('عکس مسجد زیبا بساز')">🎨 عکس مسجد</div>
 </div>
 <div class="ai-input-box">
-<input type="text" id="ai-input" placeholder="سوالت رو بپرس..." onkeypress="if(event.key==='Enter')sendAIMessage()">
+<input type="text" id="ai-input" placeholder="سوالت رو بپرس یا بگو «عکس ... بساز»..." onkeypress="if(event.key==='Enter')sendAIMessage()">
 <button class="ai-send-btn" id="ai-send-btn" onclick="sendAIMessage()"><i class="fa-solid fa-paper-plane"></i></button>
 </div>
 </div>
@@ -487,10 +493,7 @@ html,body{height:100%;width:100%;overflow:hidden;background-color:#e0e0e0}
 </div>
 
 <script>
-// =========================================================
-// دیتابیس کلمات عربی هفتم (خلاصه - کاملاً در کد نهایی موجود)
-// =========================================================
-const dictionary = {
+const dictionary={
 "أبی":{fa:"پدرم",lesson:"الدرس الأول",combo:"أَب + ی"},
 "أمی":{fa:"مادرم",lesson:"الدرس الأول",combo:"أُم + ی"},
 "هذا":{fa:"این (مذکر)",lesson:"الدرس الأول"},
@@ -553,7 +556,6 @@ const dictionary = {
 "زهرة":{fa:"گل",lesson:"الدرس الأول",jam:"زهور"},
 "ماء":{fa:"آب",lesson:"الدرس الأول"},
 "نار":{fa:"آتش",lesson:"الدرس الحادی عشر",jam:"نیران"},
-"خبز":{fa:"نان",lesson:"الدرس الأول"},
 "تفاح":{fa:"سیب",lesson:"الدرس الثالث عشر"},
 "رمان":{fa:"انار",lesson:"الدرس السابع"},
 "عنب":{fa:"انگور",lesson:"الدرس السابع"},
@@ -565,7 +567,6 @@ const dictionary = {
 "رأس":{fa:"سر",lesson:"الدرس الأول",jam:"رؤوس"},
 "عین":{fa:"چشم",lesson:"الدرس الأول",jam:"عيون"},
 "أذن":{fa:"گوش",lesson:"الدرس الأول",jam:"آذان"},
-"فم":{fa:"دهان",lesson:"الدرس الأول",jam:"أفواه"},
 "ساعة":{fa:"ساعت",lesson:"الدرس السادس",jam:"ساعات"},
 "یوم":{fa:"روز",lesson:"الدرس الخامس",jam:"أیام"},
 "شهر":{fa:"ماه",lesson:"الدرس الحادی عشر",jam:"شهور"},
@@ -573,28 +574,19 @@ const dictionary = {
 "أسبوع":{fa:"هفته",lesson:"الدرس الحادی عشر",jam:"أسابیع"},
 "کنز":{fa:"گنج",lesson:"الدرس الرابع",jam:"کنوز"},
 "ذهب":{fa:"طلا",lesson:"الدرس الرابع"},
-"فضة":{fa:"نقره",lesson:"الدرس الرابع"},
 "حجر":{fa:"سنگ",lesson:"الدرس السادس",jam:"أحجار"},
-"خشب":{fa:"چوب",lesson:"الدرس السادس"},
-"حدید":{fa:"آهن",lesson:"الدرس السادس"},
 "سیارة":{fa:"خودرو",lesson:"الدرس الثامن",jam:"سیارات"},
 "سفینة":{fa:"کشتی",lesson:"الدرس العاشر",jam:"سفن"},
-"طائرة":{fa:"هواپیما",lesson:"الدرس الثامن",jam:"طائرات"},
-"قطار":{fa:"قطار",lesson:"الدرس الثامن",jam:"قطارات"},
 "بیت":{fa:"خانه",lesson:"الدرس الأول",jam:"بیوت"},
 "غرفة":{fa:"اتاق",lesson:"الدرس الأول",jam:"غرف"},
 "مدرسة":{fa:"مدرسه",lesson:"الدرس الأول",jam:"مدارس"},
-"جامعة":{fa:"دانشگاه",lesson:"الدرس الأول",jam:"جامعات"},
-"مکتبة":{fa:"کتابخانه",lesson:"الدرس الأول",jam:"مکتبات"},
 "مسجد":{fa:"مسجد",lesson:"الدرس الأول",jam:"مساجد"},
 "سوق":{fa:"بازار",lesson:"الدرس الثالث عشر",jam:"أسواق"},
 "بستان":{fa:"باغ",lesson:"الدرس السابع",jam:"بساتین"},
 "حدیقة":{fa:"باغ",lesson:"الدرس السادس",jam:"حدائق"},
 "مطعم":{fa:"رستوران",lesson:"الدرس الثامن",jam:"مطاعم"},
 "فندق":{fa:"هتل",lesson:"الدرس السابع",jam:"فنادق"},
-"مستشفى":{fa:"بیمارستان",lesson:"الدرس الثامن",jam:"مستشفیات"},
-"شارع":{fa:"خیابان",lesson:"الدرس الثامن",jam:"شوارع"},
-"طریق":{fa:"راه",lesson:"الدرس الثامن",jam:"طرق"}
+"شارع":{fa:"خیابان",lesson:"الدرس الثامن",jam:"شوارع"}
 };
 
 const stagesData=[
@@ -609,8 +601,8 @@ function playCorrectSound(){initAudio();if(!audioContext)return;const n=audioCon
 function playWrongSound(){initAudio();if(!audioContext)return;const n=audioContext.currentTime;const o=audioContext.createOscillator(),g=audioContext.createGain();o.type='sawtooth';o.frequency.setValueAtTime(220,n);o.frequency.exponentialRampToValueAtTime(110,n+0.3);g.gain.setValueAtTime(0.2,n);g.gain.exponentialRampToValueAtTime(0.01,n+0.3);o.connect(g);g.connect(audioContext.destination);o.start(n);o.stop(n+0.3)}
 
 let state={coins:0,diamonds:0,hearts:3,streak:0,totalScore:0,stageStars:[0,0,0],stageCompleted:[false,false,false],stageScoreClaimed:[false,false,false],debtHearts:0,inProgress:null};
-function saveState(){localStorage.setItem('mojam_v12',JSON.stringify(state))}
-function loadState(){const s=localStorage.getItem('mojam_v12');if(s){try{state={...state,...JSON.parse(s)}}catch(e){}}}
+function saveState(){localStorage.setItem('mojam_v13',JSON.stringify(state))}
+function loadState(){const s=localStorage.getItem('mojam_v13');if(s){try{state={...state,...JSON.parse(s)}}catch(e){}}}
 
 let currentStageIndex=0,currentQuestionIndex=0,currentScore=0,currentHearts=3,correctAnswers=0,timerInterval,totalTimeLeft=25,isAnswered=false,lastPlayedStage=0,isAILoading=false;
 
@@ -651,14 +643,14 @@ function showDebtModal(){const d=document.getElementById('debt-desc');if(state.d
 function closeDebtModal(){document.getElementById('debt-modal').classList.remove('active')}
 function acceptDebt(){state.debtHearts+=1;state.hearts+=1;saveState();updateAllUI();closeDebtModal();showMessage('success','قرض گرفته شد!',`✅ یک قلب قرض گرفتی!<br>مجموع قرض‌ها: <b>${state.debtHearts} قلب</b>`,'باشه')}
 
-// ================= Dictionary Search =================
 function searchDict(){const query=document.getElementById('dict-input').value.trim();const results=document.getElementById('dict-results');results.innerHTML='';if(query===''){const dw=['کتاب','قلم','مدرسة','باب','ولد','علم'];dw.forEach(k=>{if(dictionary[k])results.innerHTML+=renderWordCard(k,dictionary[k])});return}const cq=query.replace(/[\u064B-\u0652]/g,'').toLowerCase();const matches=[];for(let k in dictionary){const ck=k.replace(/[\u064B-\u0652]/g,'').toLowerCase();const d=dictionary[k];const cf=d.fa.toLowerCase();if(ck.startsWith(cq)||ck.includes(cq)||cf.includes(cq)||d.lesson.toLowerCase().includes(cq)||(d.jam&&d.jam.toLowerCase().includes(cq))||(d.mofrad&&d.mofrad.toLowerCase().includes(cq))||(d.motaradef&&d.motaradef.toLowerCase().includes(cq))||(d.motazad&&d.motazad.toLowerCase().includes(cq))){const sw=ck.startsWith(cq)||cf.startsWith(cq);matches.push({key:k,data:d,startsWith:sw})}}matches.sort((a,b)=>(b.startsWith?1:0)-(a.startsWith?1:0));if(matches.length>0){matches.forEach(m=>{results.innerHTML+=renderWordCard(m.key,m.data)})}else{results.innerHTML=`<div class="placeholder-screen"><i class="fa-solid fa-circle-exclamation" style="color:var(--red)"></i><p>کلمه‌ای یافت نشد</p></div>`}}
 
 function renderWordCard(key,data){let ih='';if(data.jam)ih+=`<div class="word-info-row info-plural"><div class="info-icon"><i class="fa-solid fa-layer-group"></i></div><span class="info-label">جمع:</span><span class="info-value">${data.jam}</span></div>`;if(data.mofrad)ih+=`<div class="word-info-row info-plural"><div class="info-icon"><i class="fa-solid fa-circle-dot"></i></div><span class="info-label">مفرد:</span><span class="info-value">${data.mofrad}</span></div>`;if(data.motaradef)ih+=`<div class="word-info-row info-synonym"><div class="info-icon"><i class="fa-solid fa-equals"></i></div><span class="info-label">مترادف:</span><span class="info-value">${data.motaradef}</span></div>`;if(data.motazad)ih+=`<div class="word-info-row info-antonym"><div class="info-icon"><i class="fa-solid fa-left-right"></i></div><span class="info-label">متضاد:</span><span class="info-value">${data.motazad}</span></div>`;if(data.combo)ih+=`<div class="word-info-row info-combo"><div class="info-icon"><i class="fa-solid fa-puzzle-piece"></i></div><span class="info-label">ترکیب:</span><span class="info-value">${data.combo}</span></div>`;if(data.moanes)ih+=`<div class="word-info-row info-synonym"><div class="info-icon"><i class="fa-solid fa-venus"></i></div><span class="info-label">مؤنث:</span><span class="info-value">${data.moanes}</span></div>`;return`<div class="word-card"><div class="word-card-header"><div class="word-ar">${key}</div><div class="word-lesson-tag">${data.lesson}</div></div><div class="word-fa">${data.fa}</div>${ih?`<div class="word-info-grid">${ih}</div>`:''}</div>`}
 
 // =========================================================
-// هوش عربی - با Puter.js (رایگان و آنلاین)
+// هوش عربی - با Pollinations.AI (متن + عکس، رایگان، بدون ایمیل)
 // =========================================================
+
 function sendAIMessage(){
 if(isAILoading)return;
 const input=document.getElementById('ai-input');
@@ -666,20 +658,38 @@ const text=input.value.trim();
 if(!text)return;
 addAIMessage(text,'user');
 input.value='';
+
+// چک کن آیا کاربر می‌خواد عکس بسازه
+if(isImageRequest(text)){
+const prompt=extractImagePrompt(text);
+isAILoading=true;
+document.getElementById('ai-send-btn').disabled=true;
+showAILoading();
+generateImage(prompt).then(()=>{
+removeAILoading();
+isAILoading=false;
+document.getElementById('ai-send-btn').disabled=false;
+}).catch(err=>{
+removeAILoading();
+addAIMessage("❌ متأسفم، ساخت عکس با خطا مواجه شد. لطفاً دوباره تلاش کن.",'ai');
+isAILoading=false;
+document.getElementById('ai-send-btn').disabled=false;
+});
+return;
+}
+
 // اول در دیتابیس محلی جستجو کن
 const localResponse=searchLocalDB(text);
 if(localResponse){
-// اگه در دیتابیس محلی پیدا شد، همون رو نمایش بده
-setTimeout(()=>{
-addAIMessage(localResponse,'ai');
-},500);
+setTimeout(()=>{addAIMessage(localResponse,'ai')},500);
 return;
 }
+
 // اگه نبود، از هوش مصنوعی آنلاین بپرس
 isAILoading=true;
 document.getElementById('ai-send-btn').disabled=true;
 showAILoading();
-askPuterAI(text).then(response=>{
+askPollinationsAI(text).then(response=>{
 removeAILoading();
 addAIMessage(response,'ai');
 isAILoading=false;
@@ -692,10 +702,125 @@ document.getElementById('ai-send-btn').disabled=false;
 });
 }
 
-// جستجو در دیتابیس محلی
+// تشخیص درخواست عکس
+function isImageRequest(text){
+const keywords=['عکس','تصویر','نقاشی','بکش','بساز عکس','image','picture','draw','paint'];
+const lower=text.toLowerCase();
+return keywords.some(k=>lower.includes(k)) && (lower.includes('بساز')||lower.includes('بکش')||lower.includes('draw')||lower.includes('image')||lower.includes('picture'));
+}
+
+// استخراج پرامپت عکس
+function extractImagePrompt(text){
+let prompt=text
+.replace(/عکس|تصویر|نقاشی|بکش|بساز|یک|یه|از|را|رو/g,'')
+.replace(/image|picture|draw|paint|create|a|an|the/gi,'')
+.trim();
+// ترجمه ساده کلمات کلیدی عربی/فارسی به انگلیسی
+const translations={
+'کتاب':'book','قلم':'pen','مدرسه':'school','مسجد':'mosque','خانه':'house','درخت':'tree',
+'گل':'flower','آسمان':'sky','خورشید':'sun','ماه':'moon','ستاره':'star','دریا':'sea',
+'کوه':'mountain','باغ':'garden','پسر':'boy','دختر':'girl','معلم':'teacher','دانش آموز':'student',
+'قرآن':'Quran','کعبه':'Kaaba','مکه':'Mecca','مدینه':'Medina','نماز':'prayer','سجده':'prostration',
+'مادر':'mother','پدر':'father','خانواده':'family','کودک':'child','کودکان':'children',
+'طبیب':'doctor','پزشک':'doctor','مهندس':'engineer','نویسنده':'writer','شاعر':'poet',
+'فیل':'elephant','شیر':'lion','گربه':'cat','سگ':'dog','اسب':'horse','پرنده':'bird',
+'ماهی':'fish','پروانه':'butterfly','زنبور':'bee','مورچه':'ant','بلبل':'nightingale',
+'هدهد':'hoopoe','کلاغ':'crow','شتر':'camel','گاو':'cow','گوسفند':'sheep',
+'سیب':'apple','انار':'pomegranate','انگور':'grape','خرما':'date','توت':'berry',
+'نان':'bread','آب':'water','شیر':'milk','عسل':'honey','برنج':'rice',
+'کشتی':'ship','هواپیما':'airplane','قطار':'train','ماشین':'car','خودرو':'car',
+'بازار':'bazaar','مغازه':'shop','رستوران':'restaurant','هتل':'hotel','بیمارستان':'hospital',
+'کتابخانه':'library','پارک':'park','خیابان':'street','روستا':'village','شهر':'city'
+};
+for(let fa in translations){
+prompt=prompt.replace(new RegExp(fa,'g'),translations[fa]);
+}
+// اگه پرامپت خالی بود، یه پیش‌فرض بذار
+if(!prompt||prompt.length<2)prompt='beautiful islamic art';
+return prompt;
+}
+
+// ساخت عکس با Pollinations.AI
+function generateImage(prompt){
+return new Promise((resolve,reject)=>{
+const encodedPrompt=encodeURIComponent(prompt+', high quality, detailed, beautiful');
+const seed=Math.floor(Math.random()*1000000);
+const imageUrl=`https://image.pollinations.ai/prompt/${encodedPrompt}?width=512&height=512&seed=${seed}&nologo=true`;
+
+// نمایش پیام که در حال ساخت عکسه
+const chat=document.getElementById('ai-chat');
+const msg=document.createElement('div');
+msg.className='ai-message ai';
+msg.id='ai-image-loading';
+msg.innerHTML=`
+<div class="msg-avatar"><i class="fa-solid fa-robot"></i></div>
+<div class="bubble">
+<div style="text-align:center">
+<div style="font-weight:bold;margin-bottom:8px">🎨 در حال ساخت عکس...</div>
+<div style="width:60px;height:60px;margin:0 auto;border:4px solid #f0f0f5;border-top:4px solid var(--pink);border-radius:50%;animation:spin 1s linear infinite"></div>
+<div style="font-size:11px;color:var(--muted);margin-top:8px">${prompt}</div>
+</div>
+</div>
+`;
+chat.appendChild(msg);
+chat.scrollTop=chat.scrollHeight;
+
+// پیش بارگذاری عکس
+const img=new Image();
+img.crossOrigin='anonymous';
+img.onload=()=>{
+// حذف لودینگ
+const l=document.getElementById('ai-image-loading');
+if(l)l.remove();
+// اضافه کردن کارت عکس
+addImageCard(imageUrl,prompt);
+resolve();
+};
+img.onerror=()=>{
+const l=document.getElementById('ai-image-loading');
+if(l)l.remove();
+reject(new Error('Image failed to load'));
+};
+img.src=imageUrl;
+});
+}
+
+function addImageCard(imageUrl,prompt){
+const chat=document.getElementById('ai-chat');
+const msg=document.createElement('div');
+msg.className='ai-message ai';
+const uniqueId='img_'+Date.now();
+msg.innerHTML=`
+<div class="msg-avatar"><i class="fa-solid fa-robot"></i></div>
+<div class="ai-image-card" id="${uniqueId}">
+<img src="${imageUrl}" alt="${prompt}" loading="lazy">
+<div class="img-actions">
+<button class="download-btn" onclick="downloadImage('${imageUrl}','${prompt.replace(/'/g,'')}')"><i class="fa-solid fa-download"></i> دانلود</button>
+<button class="regen-btn" onclick="regenImage('${prompt.replace(/'/g,'')}')"><i class="fa-solid fa-rotate"></i> دوباره</button>
+</div>
+</div>
+`;
+chat.appendChild(msg);
+chat.scrollTop=chat.scrollHeight;
+}
+
+function downloadImage(url,name){
+const link=document.createElement('a');
+link.href=url;
+link.download=`mojam-sabe-${name||'image'}.png`;
+link.target='_blank';
+document.body.appendChild(link);
+link.click();
+document.body.removeChild(link);
+}
+
+function regenImage(prompt){
+document.getElementById('ai-input').value=`عکس ${prompt} بساز`;
+sendAIMessage();
+}
+
 function searchLocalDB(question){
 const q=question.replace(/[\u064B-\u0652]/g,'').trim();
-// جستجوی مستقیم کلمه در دیکشنری
 for(let key in dictionary){
 const ck=key.replace(/[\u064B-\u0652]/g,'');
 if(q.includes(ck)||q.includes(key)){
@@ -707,7 +832,6 @@ if(d.motaradef)resp+=`🟦 **مترادف:** ${d.motaradef}\n`;
 if(d.motazad)resp+=`🟥 **متضاد:** ${d.motazad}\n`;
 if(d.combo)resp+=`🧩 **ترکیب:** ${d.combo}\n`;
 if(d.moanes)resp+=`♀️ **مؤنث:** ${d.moanes}\n`;
-// فقط اگه سوال درباره همین کلمه بود، جواب بده
 if(q.includes('معنی')||q.includes('جمع')||q.includes('مفرد')||q.includes('مترادف')||q.includes('متضاد')||q.includes('ترکیب')||q.includes('درس')){
 return resp;
 }
@@ -716,47 +840,35 @@ return resp;
 return null;
 }
 
-// اتصال به هوش مصنوعی Puter.js
-async function askPuterAI(question){
+// اتصال به Pollinations.AI (متن)
+async function askPollinationsAI(question){
 const systemPrompt=`تو یک معلم عربی هستی که فقط درباره کتاب عربی پایه هفتم (دوره اول متوسطه) پاسخ می‌دهی.
-اطلاعات کتاب:
+اطلاعات کتاب عربی هفتم:
 - ۱۷ درس دارد
-- درس اول: الحروف العربیة
-- درس دوم: فی الصف
-- درس سوم: اللغة الجمیلة
-- درس چهارم: قیمة العلم (کنز العلم)
-- درس پنجم: نور الکلام
-- درس ششم: التفکر
-- درس هفتم: خیر الکلام (هل و أ)
-- درس هشتم: کنوز الحکم (من)
-- درس نهم: کنز النصیحة (ما)
-- درس دهم: الحکم النافعة (أین)
-- درس یازدهم: حکمتان عددیتان (کم)
-- درس دوازدهم: حوار بین الوالد و الولد
-- درس سیزدهم: فی السوق (فعل ماضی)
-- درس چهاردهم: الجملة الذهبیة
-- درس پانزدهم: فی الحدود
-- درس شانزدهم: الأسرة الناجحة
-- درس هفدهم: زینة الباطن
+- درس اول: الحروف العربیة | درس دوم: فی الصف | درس سوم: اللغة الجمیلة
+- درس چهارم: قیمة العلم | درس پنجم: نور الکلام | درس ششم: التفکر
+- درس هفتم: خیر الکلام (هل و أ) | درس هشتم: کنوز الحکم (من)
+- درس نهم: کنز النصیحة (ما) | درس دهم: الحکم النافعة (أین)
+- درس یازدهم: حکمتان عددیتان (کم) | درس دوازدهم: حوار بین الوالد و الولد
+- درس سیزدهم: فی السوق (فعل ماضی) | درس چهاردهم: الجملة الذهبیة
+- درس پانزدهم: فی الحدود | درس شانزدهم: الأسرة الناجحة | درس هفدهم: زینة الباطن
+
+قواعد مهم: مذکر/مؤنث، مفرد/مثنی/جمع، اسم اشاره (هذا/هذه/ذلک/تلک/هذان/هاتان/هؤلاء/أولئک)، حروف شمسی و قمری، فعل ماضی (فعل، فعلت، فعلت، فعلوا، فعلن، فعلنا، فعلتما، فعلتم، فعلتن).
 
 همیشه به فارسی جواب بده. جواب‌ها کوتاه، دقیق و آموزشی باشند.
-اگه سوال درباره معنی کلمه، قواعد، حدیث، متن درس یا تمرین بود، دقیق جواب بده.
-اگه سوال مربوط به عربی هفتم نبود، بگو که فقط درباره عربی هفتم می‌تونی کمک کنی.`;
+اگه سوال مربوط به عربی هفتم نبود، مؤدبانه بگو که فقط درباره عربی هفتم کمک می‌کنی.`;
 
 try{
-const response=await puter.ai.chat(`${systemPrompt}\n\nسوال دانش‌آموز: ${question}`);
-if(typeof response==='string')return response;
-if(response&&response.message&&response.message.content){
-if(Array.isArray(response.message.content)){
-return response.message.content.map(c=>c.text||'').join('\n');
-}
-return response.message.content;
-}
-if(response&&response.text)return response.text;
-return JSON.stringify(response);
+const encodedQ=encodeURIComponent(question);
+const encodedSys=encodeURIComponent(systemPrompt);
+const url=`https://text.pollinations.ai/${encodedQ}?system=${encodedSys}&model=openai&json=false`;
+const response=await fetch(url);
+if(!response.ok)throw new Error('Network error');
+const text=await response.text();
+return text.trim()||"متأسفم، پاسخ مناسب پیدا نشد.";
 }catch(e){
-console.error('Puter AI Error:',e);
-return "❌ متأسفم، در ارتباط با هوش مصنوعی خطایی رخ داد. لطفاً دوباره تلاش کن.";
+console.error('Pollinations Error:',e);
+return "❌ متأسفم، در ارتباط با هوش مصنوعی خطایی رخ داد.\n\n💡 راه‌حل: لطفاً اینترنت خود را بررسی کن یا از دیتابیس محلی (کلمات کتاب) استفاده کن.";
 }
 }
 
@@ -765,13 +877,10 @@ function addAIMessage(text,type){const chat=document.getElementById('ai-chat');c
 function showAILoading(){const chat=document.getElementById('ai-chat');const l=document.createElement('div');l.className='ai-message ai';l.id='ai-loading';l.innerHTML=`<div class="msg-avatar"><i class="fa-solid fa-robot"></i></div><div class="bubble"><div class="ai-loading"><span></span><span></span><span></span></div></div>`;chat.appendChild(l);chat.scrollTop=chat.scrollHeight}
 function removeAILoading(){const l=document.getElementById('ai-loading');if(l)l.remove()}
 
-// ================= Shop =================
 function buyItem(type,cost){let cb=false,mc=null;if(type==='heart_coin'){if(state.coins>=cost){state.coins-=cost;if(state.debtHearts>0){const td=state.debtHearts,hp=5;if(td>=hp){state.debtHearts-=hp;mc={type:'success',title:'قرض ادا شد!',desc:`✅ ${hp} قلب از قرض‌ها کم شد.<br>باقی‌مونده: <b>${state.debtHearts}</b>`}}else{const r=hp-td;state.debtHearts=0;state.hearts+=r;mc={type:'success',title:'قرض ادا شد!',desc:`✅ ${td} قرض ادا شد.<br>${r} قلب اضافه شد.`}}}else{state.hearts+=5;mc={type:'success',title:'خرید موفق!',desc:'✅ 5 قلب خریداری شد!'}}cb=true}else{showDebtModal();return}}else if(type==='diamond_coin'){if(state.coins>=cost){state.coins-=cost;state.diamonds+=5;cb=true;mc={type:'success',title:'خرید موفق!',desc:'✅ 5 الماس خریداری شد!'}}else{mc={type:'error',title:'سکه کافی نیست!',desc:'❌ حداقل 500 سکه نیاز دارید.'}}}else if(type==='heart_diamond'){if(state.diamonds>=cost){state.diamonds-=cost;if(state.debtHearts>0){const td=state.debtHearts,hp=10;if(td>=hp){state.debtHearts-=hp;mc={type:'success',title:'قرض ادا شد!',desc:`✅ ${hp} قلب از قرض‌ها کم شد.`}}else{const r=hp-td;state.debtHearts=0;state.hearts+=r;mc={type:'success',title:'قرض ادا شد!',desc:`✅ ${td} قرض ادا شد.<br>${r} قلب اضافه شد.`}}}else{state.hearts+=10;mc={type:'success',title:'خرید موفق!',desc:'✅ 10 قلب خریداری شد!'}}cb=true}else{mc={type:'error',title:'الماس کافی نیست!',desc:'❌ حداقل 5 الماس نیاز دارید.'}}}else if(type==='diamond_diamond'){if(state.diamonds>=cost){state.diamonds-=cost;state.diamonds+=20;cb=true;mc={type:'success',title:'خرید موفق!',desc:'✅ 20 الماس خریداری شد!'}}else{mc={type:'error',title:'الماس کافی نیست!',desc:'❌ حداقل 15 الماس نیاز دارید.'}}}if(cb){saveState();updateAllUI()}if(mc)showMessage(mc.type,mc.title,mc.desc,'باشه')}
 
-// ================= Falling Words =================
 function createFallingWords(){const c=document.getElementById('falling-words');const w=["كتاب","قلم","مدرسة","باب","ولد","علم","نور","قمر","شمس","ماء"];for(let i=0;i<15;i++){const s=document.createElement('span');s.innerText=w[Math.floor(Math.random()*w.length)];s.style.left=Math.random()*100+'%';s.style.animationDuration=(Math.random()*3+3)+'s';s.style.animationDelay=Math.random()*2+'s';s.style.fontSize=(Math.random()*20+16)+'px';s.style.opacity=Math.random()*0.5+0.3;c.appendChild(s)}}
 
-// ================= Init =================
 window.onload=function(){
 createFallingWords();
 loadState();
@@ -780,7 +889,7 @@ history.replaceState(null,'','');
 history.pushState(null,'','');
 searchDict();
 setTimeout(()=>{
-addAIMessage("👋 سلام! من **هوش عربی** هستم.\n\nمی‌تونم به این سوالات جواب بدم:\n• معنی کلمات عربی هفتم\n• جمع، مفرد، مثنی\n• مترادف و متضاد\n• ترکیب کلمات\n• **قواعد و احادیث هر درس**\n• **ترجمه متن‌های درسی**\n\nچی می‌خوای بدونی؟",'ai');
+addAIMessage("👋 سلام! من **هوش عربی** هستم.\n\n🎯 می‌تونم:\n• به سوالات عربی هفتم جواب بدم\n• معنی، جمع، مترادف، متضاد کلمات\n• قواعد و احادیث هر درس\n\n🎨 **ساخت عکس:**\nفقط بگو «عکس ... بساز»\nمثلاً:\n• «عکس یک کتاب بساز»\n• «عکس مدرسه بساز»\n• «عکس مسجد زیبا بساز»\n\nچی می‌خوای؟",'ai');
 },500);
 setTimeout(()=>{document.getElementById('screen-splash').classList.add('hidden')},2500);
 };
